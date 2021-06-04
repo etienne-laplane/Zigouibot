@@ -10,14 +10,14 @@ var update=false;
 var PBtosend=[];
 var pbupdated = false;
 const WebHookListener  = require('twitch-webhooks');
-const ApiClient =require('twitch');
+//const ApiClient =require('twitch');
 const twitchauth =require('twitch-auth');
 var LIVE=false;
 const clientId = '8ebli10ths5tzs7oyeh6wje0riip09';
 const clientSecret = 'xmb8i2cqb8t77rvneoq96wdn1lk9g4';
-const authProvider = new twitchauth.ClientCredentialsAuthProvider(clientId, clientSecret);
-const apiClient = new ApiClient({ authProvider });
-const discordname="TwynTestT"//ZigouiStream
+//const authProvider = new twitchauth.ClientCredentialsAuthProvider(clientId, clientSecret);
+//const apiClient = new ApiClient({ authProvider });
+const discordname=""//ZigouiStream
 
 //beurre.
 //rweed.
@@ -47,13 +47,13 @@ function isZiglive(){
 	);
 }
 
-setInterval(isZiglive,90000);
+//setInterval(isZiglive,90000);
 
 bot.on('message', msg => {
 	var args=msg.content.split(' ');
 	if(args[0]=="!addrole"){
 		if(!msg.member.roles.cache.some(r=>[conf.adminRoleName].includes(r.name)) ){
-			//pas mod
+			return;
 		}
 		//mod
 		addrole(args[1]);
@@ -64,7 +64,13 @@ bot.on('message', msg => {
 	if (args[0]=="!role"){
 		role(msg,args[1]);
 	}
-		if (args[0]=="!live"){
+	if (args[0]=="!supprimerole"){
+		if(!msg.member.roles.cache.some(r=>[conf.adminRoleName].includes(r.name)) ){
+			return;
+		}
+		deleterole(msg,args[1]);
+	}
+	if (args[0]=="!live"){
 		live(msg);
 	}
 });
@@ -75,6 +81,16 @@ function addrole(role){
 		if (err) return console.log(err);
 	});
 	
+}
+
+function deleterole(msg,role){
+	const index=roles.roles.indexOf(role);
+	if (index > -1) {
+		roles.roles.splice(index, 1);
+	fs.writeFile('./roles.json', JSON.stringify(roles), function (err) {
+		if (err) return console.log(err);
+	});
+	}
 }
 
 function rolelist(msg){
