@@ -10,13 +10,13 @@ var update=false;
 var PBtosend=[];
 var pbupdated = false;
 const WebHookListener  = require('twitch-webhooks');
-//const ApiClient =require('twitch');
+const ApiClient =require('twitch');
 const twitchauth =require('twitch-auth');
 var LIVE=false;
 const clientId = '8ebli10ths5tzs7oyeh6wje0riip09';
 const clientSecret = 'xmb8i2cqb8t77rvneoq96wdn1lk9g4';
-//const authProvider = new twitchauth.ClientCredentialsAuthProvider(clientId, clientSecret);
-//const apiClient = new ApiClient({ authProvider });
+const authProvider = new twitchauth.ClientCredentialsAuthProvider(clientId, clientSecret);
+const apiClient = new ApiClient({ authProvider });
 const discordname=""//ZigouiStream
 
 //beurre.
@@ -47,7 +47,7 @@ function isZiglive(){
 	);
 }
 
-//setInterval(isZiglive,90000);
+setInterval(isZiglive,90000);
 
 bot.on('message', msg => {
 	var args=msg.content.split(' ');
